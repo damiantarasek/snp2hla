@@ -1,0 +1,56 @@
+<tool id="snp2hla_1" name="SNP2HLA" version="0.2.0">
+  <description> no stratification</description>
+  <requirements>
+    <requirement type="package" version="1.90b4">plink</requirement>
+    <requirement type="package">snp2hla</requirement>
+	  <requirement type="package" version="3.2.0">R</requirement>
+  </requirements>
+  <command detect_errors="exit_code"><![CDATA[ 
+  cd /home/mlibydt3/galaxy/tools &&
+  rm -fr snp2hla/temp_output/${name}* &&
+  rm -fr snp2hla/data/input/* &&
+
+  ## prep the input files from database folder to input folder
+  bash $__tool_directory__/folder_path.sh $input_pbed snp2hla/data/input &&
+
+  ## run the script
+  bash $__tool_directory__/snp2hla_galaxy_no_strat.sh $max_memory $window_size $name snp2hla/data/input/RgeneticsData \$ref_panel/T1DGC_REF plink SNP2HLA.csh snp2hla/temp_output &&
+  
+  ## output files
+  cp snp2hla/temp_output/${name}.bim "$output_bim" &&
+  cp snp2hla/temp_output/${name}.bed "$output_bed" &&
+  cp snp2hla/temp_output/${name}.fam "$output_fam" &&
+  cp snp2hla/temp_output/${name}.bgl.r2 "$output_r2" &&
+  cp snp2hla/temp_output/${name}.bgl.log "$output_log" &&
+  cp snp2hla/temp_output/${name}.dosage "$output_dosage"
+  
+  ]]>
+  </command>
+  <inputs>      
+    <param type="text" name="name" value = "test" label="Name for labelling output directory and files" help="(NAME)" />       
+    <param type="integer" name="max_memory" value="10000" label="Maximum memory [MB]" help="Maximum memory in MB allowed for the process (max_memory)" />
+    <param type="integer" name="window_size" value="2000" label="Beagle window size" help="Window size of reference markers" />
+    <!--<param type="hidden" name="ref_panel" value="snp2hla/data/REF/T1DGC_REF"/>-->
+    <param type="data" name="input_pbed" format="pbed" label="pbed file" help="select 'Upload File' from top left tools menu, then click on 'Composite' tab, then upload bim, bed and fam files" />
+  </inputs>
+  <outputs>
+    <data name="output_bim" format="tabular" label="BIM file" />
+    <data name="output_bed" format="bed" label="BED file" />
+    <data name="output_fam" format="txt" label="FAM file" />
+    <data name="output_r2" format="tabular" label="r2 file" />
+    <data name="output_log" format="txt" label="LOG file" />
+    <data name="output_dosage" format="txt" label="Dosage file" />
+  </outputs>
+<!--
+  <tests>
+    <test>
+      <param name="input" value="/home/mlibydt3/galaxy/tools/snp2hla/data/input/snp2hla_test_10.bed"/>
+      <output name="out_file1" file="fa_gc_content_output.txt"/>   
+    </test>
+  </tests>
+-->
+  <help>
+ This tool imputes amino acids, HLA alleles, and SNPs in MHC region from SNP genotype data.
+  </help>
+
+</tool>
