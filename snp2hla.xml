@@ -1,9 +1,8 @@
-<tool id="snp2hla_1" name="SNP2HLA" version="0.2.0">
+<tool id="snp2hla_1" name="SNP2HLA" version="0.3.0">
   <description> no stratification</description>
   <requirements>
-    <requirement type="package" version="1.90b4">plink</requirement>
-    <requirement type="package">snp2hla</requirement>
-	  <requirement type="package" version="3.2.0">R</requirement>
+    <requirement type="package" version="2.7">python</requirement>
+    <requirement type="package">pandas</requirement>
   </requirements>
   <command detect_errors="exit_code"><![CDATA[ 
   cd /home/mlibydt3/galaxy/tools &&
@@ -22,7 +21,7 @@
   cp snp2hla/temp_output/${name}.fam "$output_fam" &&
   cp snp2hla/temp_output/${name}.bgl.r2 "$output_r2" &&
   cp snp2hla/temp_output/${name}.bgl.log "$output_log" &&
-  cp snp2hla/temp_output/${name}.dosage "$output_dosage"
+  cp snp2hla/temp_output/${name}.out.dosage "$output_dosage"
   
   ]]>
   </command>
